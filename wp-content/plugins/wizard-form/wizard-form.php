@@ -323,7 +323,7 @@ function process_complete_form() {
     // Send email notification
     $to = array(
         'noleen@lifeinsurancenorthernireland.co.uk',
-        'mcurran691@gmail.com',
+        'mcurran6911@gmail.com',
         'navis.programmer@gmail.com'
     );
     $subject = 'Quote Request | Life Insurance Under 30';
