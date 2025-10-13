@@ -3,8 +3,7 @@
     <div class="form-group">
         <input type="text" 
                name="postcode" 
-               placeholder="Enter your postcode" 
-               pattern="[A-Za-z]{1,2}[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}" 
+               placeholder="SW1A 1AA" 
                title="Please enter a valid UK postcode" 
                required
                value="<?php echo isset($saved_data['postcode']) ? esc_attr($saved_data['postcode']) : ''; ?>"

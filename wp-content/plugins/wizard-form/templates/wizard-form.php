@@ -2,7 +2,7 @@
 // Get current progress
 $steps = ['quotes', 'cover', 'smoked', 'duration', 'date-of-birth', 'first-and-last-name', 'postcode', 'contact'];
 $current_index = array_search($step, $steps);
-$progress = $current_index !== false ? round(($current_index + 1) / count($steps) * 100) : 0;
+$progress = $current_index !== false ? round(($current_index + 1) / count($steps) * 90) : 0;
 ?>
 
 <div class="wizard-container">

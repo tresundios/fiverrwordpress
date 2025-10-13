@@ -58,10 +58,10 @@ jQuery(document).ready(function($) {
         const $nextButton = $('.next-button');
         if ($nextButton.length) {
             const isLastStep = $nextButton.data('next-step') === 'complete';
-            $nextButton.html(isLastStep ? 'Get Your Quotes Now' : 'Continue &rarr;');
+            $nextButton.html(isLastStep ? 'Compare Quotes' : 'Continue &rarr;');
             
             // Center align the button if it's the last step
-            if (isLastStep === 'Get Your Quotes Now') {
+            if (isLastStep === 'Compare Quotes') {
                 $('.submit-button-wrapper .next-button').removeClass('next-button');
                 // $nextButton.removeClass('next-button');
                 // $nextButton.parent().css({
@@ -103,6 +103,12 @@ jQuery(document).ready(function($) {
             },
             dataType: 'json',
             success: function(response) {
+                let progress = 0;
+                if(response.data.progress > 90){
+                    progress = 90;
+                }else{
+                    progress = response.data.progress;
+                }         
                 $container.removeClass('loading');
                 
                 if (response && response.success) {
@@ -117,8 +123,8 @@ jQuery(document).ready(function($) {
                             '<input type="hidden" name="current_step" value="' + step + '">' +
                             '<input type="hidden" name="wizard_form_nonce" value="' + nonce + '">' +
                             '<div class="wizard-progress">' +
-                            '<div class="progress-bar" role="progressbar" style="width: ' + response.data.progress + '%;" aria-valuenow="' + response.data.progress + '" aria-valuemin="0" aria-valuemax="100">' +
-                            Math.round(response.data.progress) + '%' +
+                            '<div class="progress-bar" role="progressbar" style="width: ' + progress + '%;" aria-valuenow="' + progress + '" aria-valuemin="0" aria-valuemax="90">' +
+                            Math.round(progress) + '%' +
                             '</div>' +
                             '</div>' +
                             '<div class="form-step">' +
@@ -226,6 +232,12 @@ jQuery(document).ready(function($) {
                 contentType: false,
                 dataType: 'json',
                 success: function(response) {
+                    let progress = 0;
+                    if(response.data.progress > 90){
+                        progress = 90;
+                    }else{
+                        progress = response.data.progress;
+                    }   
                     $form.removeClass('loading');
                     
                     if (response && response.success) {
@@ -249,8 +261,8 @@ jQuery(document).ready(function($) {
                                 '<input type="hidden" name="current_step" value="' + nextStep + '">' +
                                 '<input type="hidden" name="wizard_form_nonce" value="' + nonce + '">' +
                                 '<div class="wizard-progress">' +
-                                '<div class="progress-bar" role="progressbar" style="width: ' + response.data.progress + '%;" aria-valuenow="' + response.data.progress + '" aria-valuemin="0" aria-valuemax="100">' +
-                                Math.round(response.data.progress) + '%' +
+                                '<div class="progress-bar" role="progressbar" style="width: ' + progress + '%;" aria-valuenow="' + progress + '" aria-valuemin="0" aria-valuemax="90">' +
+                                Math.round(progress) + '%' +
                                 '</div>' +
                                 '</div>' +
                                 '<div class="form-step">' +

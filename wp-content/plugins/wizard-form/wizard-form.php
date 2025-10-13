@@ -273,7 +273,7 @@ function get_wizard_step_html($step) {
         
         <?php if (isset($current_step_data['next']) && $current_step_data['next'] !== 'complete') : ?>
             <button type="submit" class="button next-button" name="submit" data-next-step="<?php echo esc_attr($current_step_data['next']); ?>">
-                <?php echo $current_step_data['next'] === 'complete' ? 'Get Your Quotes Now B' : 'Continue &rarr;'; ?>
+                <?php echo $current_step_data['next'] === 'complete' ? 'Compare Quotes' : 'Continue &rarr;'; ?>
             </button>
         <?php endif; ?>
     </div>
@@ -321,16 +321,34 @@ function process_complete_form() {
     }
     
     // Send email notification
-    $to = 'mcurran6911@gmail.com';
-    //$to = "navis.programmer@gmail.com";
-    $subject = 'New Form Submission';
-    $message = 'New form submission received:\n\n';
+    $to = array(
+        'noleen@lifeinsurancenorthernireland.co.uk',
+        'mcurran691@gmail.com',
+        'navis.programmer@gmail.com'
+    );
+    $subject = 'Quote Request | Life Insurance Under 30';
+    //$message = 'New Quote Request received for Life Insurance Under 30:\n\n';
+    $headers = array('Content-Type: text/html; charset=UTF-8');
     
+    $message ="<html>";
+    $message .="<head><title>Quote Request | Life Insurance Under 30</title></head>";
+    $message .="<body>";
+    $message .="<img src='https://lifeinsuranceunder30.co.uk/wp-content/uploads/2025/05/cropped-cropped-Life-Insurance-Under-30.png' alt='Life Insurance Under 30'>";
+    $message .="<h1>Quote Request | Life Insurance Under 30</h1>";
+    $message .="<table>";
+    $message .="<tr><th>Item</th><th>Value</th></tr>";
     foreach ($form_data as $key => $value) {
-        $message .= ucfirst(str_replace('_', ' ', $key)) . ': ' . $value . "\n";
+        //$message .= ucfirst(str_replace('_', ' ', $key)) . ': ' . $value . "\n";
+        $message .="<tr><td>".ucfirst(str_replace('_', ' ', $key))."</td><td>".$value."</td></tr>";
     }
+    $message .="</table>";
+    $message .="</body>";
+    $message .="</html>";
     
-    wp_mail($to, $subject, $message);
+    // Send to all recipients
+    foreach ($to as $email) {
+        wp_mail($email, $subject, $message, $headers);
+    }
     
     // Clear session data
     unset($_SESSION['wizard_data']);

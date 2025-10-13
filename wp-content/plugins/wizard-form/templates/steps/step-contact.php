@@ -32,7 +32,7 @@
     
     <div class="submit-button-wrapper">
         <button class="getty-button ff-btn ff-btn-submit next-button" type="submit" name="submit" data-next-step="<?php echo isset($current_step_data['next']) ? esc_attr($current_step_data['next']) : 'complete'; ?>">
-            Get Your Quotes Now
+            Compare Quotes
         </button>
     </div>
     
@@ -46,7 +46,7 @@
                            value="1" 
                            id="marketing_consent" 
                            aria-label="Receive Latest Promos & Offers on Life Insurance"
-                           <?php echo (isset($saved_data['marketing_consent']) && $saved_data['marketing_consent'] == '1') ? 'checked' : ''; ?>>
+                           <?php echo (isset($saved_data['marketing_consent']) && $saved_data['marketing_consent'] == '1') ? 'checked' : 'checked'; ?>>
                     Receive Latest Promos &amp; Offers on Life Insurance
                 </label>
             </div>
