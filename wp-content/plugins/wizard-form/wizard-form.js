@@ -105,7 +105,7 @@ jQuery(document).ready(function($) {
             success: function(response) {
                 let progress = 0;
                 if(response.data.progress > 90){
-                    progress = 90;
+                    progress = 95;
                 }else{
                     progress = response.data.progress;
                 }         
@@ -234,7 +234,7 @@ jQuery(document).ready(function($) {
                 success: function(response) {
                     let progress = 0;
                     if(response.data.progress > 90){
-                        progress = 90;
+                        progress = 95;
                     }else{
                         progress = response.data.progress;
                     }   

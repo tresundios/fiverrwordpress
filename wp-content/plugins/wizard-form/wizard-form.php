@@ -240,9 +240,14 @@ function get_wizard_step_html($step) {
             'next' => 'complete',
             'prev' => 'postcode'
         ),
-        'complete' => array(
-            'name' => 'Grab Your Quotes',
+        'note' => array(
+            'name' => 'Quick Note',
+            'next' => 'complete',
             'prev' => 'contact'
+        ),
+        'complete' => array(
+            'name' => 'Get Quotes',
+            'prev' => 'note'
         )
     );
 
