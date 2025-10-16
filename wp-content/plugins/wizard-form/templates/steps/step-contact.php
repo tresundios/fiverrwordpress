@@ -31,7 +31,7 @@
     </div>
     
     <div class="submit-button-wrapper">
-        <button class="getty-button ff-btn ff-btn-submit next-button" type="submit" name="submit" data-next-step="<?php echo isset($current_step_data['next']) ? esc_attr($current_step_data['next']) : 'complete'; ?>">
+        <button class="getty-button ff-btn ff-btn-submit next-button" type="submit" name="submit" data-next-step="<?php echo isset($current_step_data['next']) ? esc_attr($current_step_data['next']) : 'note'; ?>">
             Compare Quotes
         </button>
     </div>

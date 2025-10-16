@@ -58,18 +58,7 @@ jQuery(document).ready(function($) {
         const $nextButton = $('.next-button');
         if ($nextButton.length) {
             const isLastStep = $nextButton.data('next-step') === 'complete';
-            $nextButton.html(isLastStep ? 'Compare Quotes' : 'Continue &rarr;');
-            
-            // Center align the button if it's the last step
-            if (isLastStep === 'Compare Quotes') {
-                $('.submit-button-wrapper .next-button').removeClass('next-button');
-                // $nextButton.removeClass('next-button');
-                // $nextButton.parent().css({
-                //     'text-align': 'center',
-                //     'display': 'flex',
-                //     'justify-content': 'center'
-                // });
-            }
+            $nextButton.html(isLastStep ? 'Get Quotes' : 'Continue &rarr;');
         }
     }
     
@@ -103,12 +92,9 @@ jQuery(document).ready(function($) {
             },
             dataType: 'json',
             success: function(response) {
-                let progress = 0;
-                if(response.data.progress > 90){
-                    progress = 95;
-                }else{
-                    progress = response.data.progress;
-                }         
+                console.log("data progress on js line 95");
+                console.log(response.data.progress);
+                let progress = response.data.progress;      
                 $container.removeClass('loading');
                 
                 if (response && response.success) {
@@ -123,7 +109,7 @@ jQuery(document).ready(function($) {
                             '<input type="hidden" name="current_step" value="' + step + '">' +
                             '<input type="hidden" name="wizard_form_nonce" value="' + nonce + '">' +
                             '<div class="wizard-progress">' +
-                            '<div class="progress-bar" role="progressbar" style="width: ' + progress + '%;" aria-valuenow="' + progress + '" aria-valuemin="0" aria-valuemax="90">' +
+                            '<div class="progress-bar" role="progressbar" style="width: ' + progress + '%;" aria-valuenow="' + progress + '" aria-valuemin="0" aria-valuemax="100">' +
                             Math.round(progress) + '%' +
                             '</div>' +
                             '</div>' +
@@ -222,7 +208,8 @@ jQuery(document).ready(function($) {
             formData.append('action', 'wizard_form_submit');
             formData.append('next_step', nextStep);
             formData.append('wizard_form_nonce', nonce);
-            
+            console.log('formData:');
+            console.log(formData);
             // Submit form via AJAX
             $.ajax({
                 url: wizard_ajax.ajax_url,
@@ -232,12 +219,9 @@ jQuery(document).ready(function($) {
                 contentType: false,
                 dataType: 'json',
                 success: function(response) {
-                    let progress = 0;
-                    if(response.data.progress > 90){
-                        progress = 95;
-                    }else{
-                        progress = response.data.progress;
-                    }   
+                    console.log("data progress on js line 223");
+                    console.log(response.data.progress);
+                    let progress = response.data.progress;
                     $form.removeClass('loading');
                     
                     if (response && response.success) {
@@ -261,7 +245,7 @@ jQuery(document).ready(function($) {
                                 '<input type="hidden" name="current_step" value="' + nextStep + '">' +
                                 '<input type="hidden" name="wizard_form_nonce" value="' + nonce + '">' +
                                 '<div class="wizard-progress">' +
-                                '<div class="progress-bar" role="progressbar" style="width: ' + progress + '%;" aria-valuenow="' + progress + '" aria-valuemin="0" aria-valuemax="90">' +
+                                '<div class="progress-bar" role="progressbar" style="width: ' + progress + '%;" aria-valuenow="' + progress + '" aria-valuemin="0" aria-valuemax="100">' +
                                 Math.round(progress) + '%' +
                                 '</div>' +
                                 '</div>' +

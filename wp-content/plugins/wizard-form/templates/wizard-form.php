@@ -1,8 +1,8 @@
 <?php
 // Get current progress
-$steps = ['quotes', 'cover', 'smoked', 'duration', 'date-of-birth', 'first-and-last-name', 'postcode', 'contact'];
+$steps = ['quotes', 'cover', 'smoked', 'duration', 'date-of-birth', 'first-and-last-name', 'postcode', 'contact','note','complete'];
 $current_index = array_search($step, $steps);
-$progress = $current_index !== false ? round(($current_index + 1) / count($steps) * 90) : 0;
+$progress = $current_index !== false ? round(($current_index + 1) / count($steps) * 100) : 0;
 ?>
 
 <div class="wizard-container">
@@ -46,11 +46,11 @@ $progress = $current_index !== false ? round(($current_index + 1) / count($steps
             <?php endif; ?>
             
             <?php if (isset($current_step_data['next'])) : ?>
-                <?php if ($current_step_data['next'] === 'complete') : ?>
+                <?php if ($current_step_data['next'] === 'complete' || $current_step_data['next'] === 'note' || $current_step_data['next'] === 'contact') : ?>
                 <span>&nbsp;</span>
                 <?php else : ?>
                 <button type="submit" class="button next-button" name="submit" data-next-step="<?php echo esc_attr($current_step_data['next']); ?>">
-                    Continue &rarr;
+                    Continue &rarr;DEF
                 </button>
                 <?php endif; ?>
             <?php endif; ?>

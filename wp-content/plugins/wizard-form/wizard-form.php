@@ -237,7 +237,7 @@ function get_wizard_step_html($step) {
         ),
         'contact' => array(
             'name' => 'Contact Info',
-            'next' => 'complete',
+            'next' => 'note',
             'prev' => 'postcode'
         ),
         'note' => array(
@@ -276,9 +276,9 @@ function get_wizard_step_html($step) {
             </a>
         <?php endif; ?>
         
-        <?php if (isset($current_step_data['next']) && $current_step_data['next'] !== 'complete') : ?>
+        <?php if (isset($current_step_data['next']) && $current_step_data['next'] !== 'complete' && $current_step_data['next'] !== 'note') : ?>
             <button type="submit" class="button next-button" name="submit" data-next-step="<?php echo esc_attr($current_step_data['next']); ?>">
-                <?php echo $current_step_data['next'] === 'complete' ? 'Compare Quotes' : 'Continue &rarr;'; ?>
+                <?php echo $current_step_data['next'] === 'complete' ? 'Compare Quotes' : 'Continue &rarr;abc'; ?>
             </button>
         <?php endif; ?>
     </div>
@@ -289,7 +289,7 @@ function get_wizard_step_html($step) {
 
 // Helper function to calculate progress
 function calculate_progress($step) {
-    $steps = ['quotes', 'cover', 'smoked', 'duration', 'date-of-birth', 'first-and-last-name', 'postcode', 'contact'];
+    $steps = ['quotes', 'cover', 'smoked', 'duration', 'date-of-birth', 'first-and-last-name', 'postcode', 'contact', 'note', 'complete'];
     $current_index = array_search($step, $steps);
     
     if ($current_index === false) {
@@ -409,12 +409,17 @@ function wizard_form_shortcode() {
         ),
         'contact' => array(
             'name' => 'Contact Info',
-            'next' => 'complete',
+            'next' => 'note',
             'prev' => 'postcode'
         ),
-        'complete' => array(
-            'name' => 'Complete',
+        'note' => array(
+            'name' => 'Quick Note',
+            'next' => 'complete',
             'prev' => 'contact'
+        ),
+        'complete' => array(
+            'name' => 'Get Quotes',
+            'prev' => 'note'
         )
     );
     
