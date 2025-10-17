@@ -1,0 +1,130 @@
+<div class="form-step">
+    <h2>What would you like to cover?</h2>
+    <div class="ff-el-input--content">
+        <div class="ff_el_checkable_photo_holders">
+            <div class="ff-el-form-check ff-el-form-check- ff-el-image-holder">
+                <label style="background-image: url(https://lifeinsuranceunder30.co.uk/wp-content/uploads/2025/03/family-silhouette.png)" class="ff-el-image-input-src" for="coverage_family" aria-label="My Family"></label>
+                <label class="ff-el-form-check-label" for="coverage_family">
+                    <input type="radio" name="coverage" data-name="coverage" class="ff-el-form-check-input ff-el-form-check-radio auto-submit-radio" value="My Family" id="coverage_family" aria-label="My Family" required <?php echo (isset($saved_data['coverage']) && $saved_data['coverage'] === 'My Family') ? 'checked' : ''; ?>>
+                    <span>My Family</span>
+                </label>
+            </div>
+            <div class="ff-el-form-check ff-el-form-check- ff-el-image-holder">
+                <label style="background-image: url(https://lifeinsuranceunder30.co.uk/wp-content/uploads/2025/03/home-3.png)" class="ff-el-image-input-src" for="coverage_mortgage" aria-label="My Mortgage"></label>
+                <label class="ff-el-form-check-label" for="coverage_mortgage">
+                    <input type="radio" name="coverage" data-name="coverage" class="ff-el-form-check-input ff-el-form-check-radio auto-submit-radio" value="My Mortgage" id="coverage_mortgage" aria-label="My Mortgage" <?php echo (isset($saved_data['coverage']) && $saved_data['coverage'] === 'My Mortgage') ? 'checked' : ''; ?>>
+                    <span>My Mortgage</span>
+                </label>
+            </div>
+            <div class="ff-el-form-check ff-el-form-check- ff-el-image-holder">
+                <label style="background-image: url(https://lifeinsuranceunder30.co.uk/wp-content/uploads/2025/03/home-2.png)" class="ff-el-image-input-src" for="coverage_both" aria-label="Both"></label>
+                <label class="ff-el-form-check-label" for="coverage_both">
+                    <input type="radio" name="coverage" data-name="coverage" class="ff-el-form-check-input ff-el-form-check-radio auto-submit-radio" value="Both" id="coverage_both" aria-label="Both" <?php echo (isset($saved_data['coverage']) && $saved_data['coverage'] === 'Both') ? 'checked' : ''; ?>>
+                    <span>Both</span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.ff_el_checkable_photo_holders {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.ff-el-image-holder {
+    flex: 1;
+    max-width: 250px;
+    min-width: 200px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.ff-el-image-holder:hover {
+    transform: scale(1.05);
+}
+
+.ff-el-image-input-src {
+    display: block;
+    width: 100%;
+    height: 200px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 3px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    margin-bottom: 10px;
+}
+
+.ff-el-image-holder input[type="radio"]:checked ~ .ff-el-image-input-src,
+.ff-el-image-holder.ff_item_selected .ff-el-image-input-src {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+
+.ff-el-form-check-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.ff-el-form-check-input {
+    display: none;
+}
+
+.ff-el-form-check-label span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 10px;
+}
+
+.ff-el-image-holder input[type="radio"]:checked + span,
+.ff-el-image-holder.ff_item_selected .ff-el-form-check-label span {
+    color: #007bff;
+}
+</style>
+
+<script>
+jQuery(document).ready(function($) {
+    // Handle radio button selection with image
+    $('.ff-el-image-holder').on('click', function(e) {
+        // Don't trigger if clicking directly on the radio input
+        if ($(e.target).is('input[type="radio"]')) {
+            return;
+        }
+        
+        e.preventDefault();
+        
+        // Remove selected class from all options
+        $('.ff-el-image-holder').removeClass('ff_item_selected');
+        
+        // Add selected class to clicked option
+        $(this).addClass('ff_item_selected');
+        
+        // Check the radio button
+        $(this).find('input[type="radio"]').prop('checked', true).trigger('change');
+    });
+    
+    // Auto-submit on radio button selection
+    $('.auto-submit-radio').on('change', function() {
+        if ($(this).is(':checked')) {
+            // Add a small delay for better UX
+            setTimeout(function() {
+                $('.wizard-form').submit();
+            }, 300);
+        }
+    });
+    
+    // Ensure the selected option is highlighted on page load
+    $('.auto-submit-radio:checked').closest('.ff-el-image-holder').addClass('ff_item_selected');
+});
+</script>
