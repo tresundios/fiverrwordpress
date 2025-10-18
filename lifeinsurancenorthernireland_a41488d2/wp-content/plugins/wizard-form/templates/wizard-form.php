@@ -1,6 +1,6 @@
 <?php
 // Get current progress
-$steps = ['quotes', 'cover', 'smoked', 'duration', 'date-of-birth', 'first-and-last-name', 'postcode', 'contact','note','complete'];
+$steps = ['quotes', 'cover', 'smoked', 'duration', 'date-of-birth', 'first-and-last-name', /*'postcode',*/ 'contact','note','complete'];
 $current_index = array_search($step, $steps);
 $progress = $current_index !== false ? round(($current_index + 1) / count($steps) * 100) : 0;
 ?>
@@ -279,7 +279,7 @@ select {
 }
 
 .wizard-form.loading::before {
-    content: 'Loading...';
+    content: 'Calculating...';
     position: fixed;
     top: 50%;
     left: 50%;

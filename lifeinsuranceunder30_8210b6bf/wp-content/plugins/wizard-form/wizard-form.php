@@ -227,18 +227,18 @@ function get_wizard_step_html($step) {
         ),
         'first-and-last-name' => array(
             'name' => 'Your Name',
-            'next' => 'postcode',
+            'next' => 'contact',
             'prev' => 'date-of-birth'
         ),
-        'postcode' => array(
-            'name' => 'Postcode',
-            'next' => 'contact',
-            'prev' => 'first-and-last-name'
-        ),
+        // 'postcode' => array(
+        //     'name' => 'Postcode',
+        //     'next' => 'contact',
+        //     'prev' => 'first-and-last-name'
+        // ),
         'contact' => array(
             'name' => 'Contact Info',
             'next' => 'note',
-            'prev' => 'postcode'
+            'prev' => 'first-and-last-name'
         ),
         'note' => array(
             'name' => 'Quick Note',
@@ -289,7 +289,7 @@ function get_wizard_step_html($step) {
 
 // Helper function to calculate progress
 function calculate_progress($step) {
-    $steps = ['quotes', 'cover', 'smoked', 'duration', 'date-of-birth', 'first-and-last-name', 'postcode', 'contact', 'note', 'complete'];
+    $steps = ['quotes', 'cover', 'smoked', 'duration', 'date-of-birth', 'first-and-last-name', /*'postcode',*/ 'contact', 'note', 'complete'];
     $current_index = array_search($step, $steps);
     
     if ($current_index === false) {
@@ -399,18 +399,18 @@ function wizard_form_shortcode() {
         ),
         'first-and-last-name' => array(
             'name' => 'Your Name',
-            'next' => 'postcode',
+            'next' => 'contact',
             'prev' => 'date-of-birth'
         ),
-        'postcode' => array(
-            'name' => 'Postcode',
-            'next' => 'contact',
-            'prev' => 'first-and-last-name'
-        ),
+        // 'postcode' => array(
+        //     'name' => 'Postcode',
+        //     'next' => 'contact',
+        //     'prev' => 'first-and-last-name'
+        // ),
         'contact' => array(
             'name' => 'Contact Info',
             'next' => 'note',
-            'prev' => 'postcode'
+            'prev' => 'first-and-last-name'
         ),
         'note' => array(
             'name' => 'Quick Note',
