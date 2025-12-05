@@ -1,0 +1,80 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+/* Wizard Ghost Admin Styles */
+.wizard-ghost-admin-container {
+	margin-top: 20px;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 20px;
+}
+
+.wizard-ghost-admin-header {
+	margin-bottom: 30px;
+	padding-bottom: 20px;
+	border-bottom: 2px solid #0073aa;
+}
+
+.wizard-ghost-admin-header p {
+	font-size: 16px;
+	color: #333;
+	margin: 0;
+}
+
+.wizard-ghost-admin-content {
+	margin-top: 20px;
+}
+
+.wizard-ghost-admin-section {
+	margin-bottom: 30px;
+	padding: 15px;
+	background: #f9f9f9;
+	border-left: 4px solid #0073aa;
+	border-radius: 3px;
+}
+
+.wizard-ghost-admin-section h2 {
+	margin-top: 0;
+	color: #0073aa;
+	font-size: 18px;
+}
+
+.wizard-ghost-admin-section p {
+	color: #555;
+	line-height: 1.6;
+}
+
+.wizard-ghost-admin-section ul {
+	margin: 10px 0;
+	padding-left: 20px;
+}
+
+.wizard-ghost-admin-section ul li {
+	margin: 8px 0;
+	list-style-type: disc;
+}
+
+.wizard-ghost-admin-section ul li a {
+	color: #0073aa;
+	text-decoration: none;
+}
+
+.wizard-ghost-admin-section ul li a:hover {
+	text-decoration: underline;
+}
+
+.wizard-ghost-admin-section .widefat {
+	margin-top: 10px;
+}
+
+.wizard-ghost-admin-section .widefat td {
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+.wizard-ghost-admin-section .widefat tr:last-child td {
+	border-bottom: none;
+}
