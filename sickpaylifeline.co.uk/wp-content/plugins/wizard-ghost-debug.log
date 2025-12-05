@@ -1,0 +1,5 @@
+[2025-12-05 20:32:06] Wizard Ghost: AJAX handler called!
+[2025-12-05 20:32:06] Wizard Ghost: POST data: {"action":"wizard_ghost_submit_form","nonce":"5665568558","occupation":"Tech Freek","first_name":"Help Me","last_name":"Lord","phone":"+44 7900 123 456","email":"help@me.com","dob":"2016-03-07"}
+[2025-12-05 20:32:06] Wizard Ghost: send_submission_email called. Email configured: michael.bearly@gmail.com
+[2025-12-05 20:32:06] Wizard Ghost: Calling wp_mail to: michael.bearly@gmail.com
+[2025-12-05 20:32:06] Wizard Ghost: Email sent successfully to michael.bearly@gmail.com

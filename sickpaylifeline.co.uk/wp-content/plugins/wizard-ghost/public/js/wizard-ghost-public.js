@@ -9,7 +9,6 @@
 	$(function() {
 		// Only initialize if wizard-ghost container exists
 		if ($('.wizard-ghost-container').length === 0) {
-			console.log('Wizard Ghost container not found');
 			return;
 		}
 
@@ -161,15 +160,29 @@
 				var self = this;
 				var nonce = $form.find('input[name="wizard_ghost_nonce"]').val();
 
+				console.log('Submitting form with data:', self.formData);
+				console.log('Nonce:', nonce);
+				console.log('AJAX URL:', wizardGhostData.ajaxUrl);
+
+				var ajaxData = {
+					action: 'wizard_ghost_submit_form',
+					nonce: nonce,
+					occupation: self.formData.occupation,
+					first_name: self.formData.first_name,
+					last_name: self.formData.last_name,
+					phone: self.formData.phone,
+					email: self.formData.email,
+					dob: self.formData.dob
+				};
+
+				console.log('AJAX data being sent:', ajaxData);
+
 				$.ajax({
 					url: wizardGhostData.ajaxUrl,
 					type: 'POST',
-					data: {
-						action: 'wizard_ghost_submit_form',
-						nonce: nonce,
-						formData: self.formData
-					},
+					data: ajaxData,
 					success: function(response) {
+						console.log('AJAX success response:', response);
 						if (response.success) {
 							// Show success message
 							// alert('Thank you! Your information has been submitted successfully.');
@@ -185,7 +198,9 @@
 							alert('Error: ' + response.data.message);
 						}
 					},
-					error: function() {
+					error: function(xhr, status, error) {
+						console.log('AJAX error:', status, error);
+						console.log('AJAX response:', xhr.responseText);
 						alert('An error occurred while submitting the form.');
 					}
 				});

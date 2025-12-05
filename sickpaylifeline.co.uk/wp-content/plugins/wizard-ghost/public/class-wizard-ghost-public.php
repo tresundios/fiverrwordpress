@@ -150,40 +150,54 @@ class Wizard_Ghost_Public {
 	 */
 	public function handle_form_submission() {
 
+		// Log to custom file
+		$log_file = WP_CONTENT_DIR . '/wizard-ghost-debug.log';
+		$log_message = '[' . date( 'Y-m-d H:i:s' ) . '] Wizard Ghost: AJAX handler called!' . PHP_EOL;
+		file_put_contents( $log_file, $log_message, FILE_APPEND );
+		
+		$log_message = '[' . date( 'Y-m-d H:i:s' ) . '] Wizard Ghost: POST data: ' . json_encode( $_POST ) . PHP_EOL;
+		file_put_contents( $log_file, $log_message, FILE_APPEND );
+		
+		error_log( 'Wizard Ghost: AJAX handler called!' );
+		error_log( 'Wizard Ghost: POST data: ' . json_encode( $_POST ) );
+
 		// Verify nonce
 		$nonce = isset( $_POST['nonce'] ) ? $_POST['nonce'] : '';
-		if ( empty( $nonce ) ) {
+		error_log( 'Wizard Ghost: Nonce received: ' . $nonce );
+		
+		if ( ! empty( $nonce ) ) {
+			$nonce_verified = wp_verify_nonce( $nonce, 'wizard_ghost_step_3' );
+			error_log( 'Wizard Ghost: Nonce verification result: ' . ( $nonce_verified ? 'VALID' : 'INVALID' ) );
+			
+			if ( ! $nonce_verified ) {
+				error_log( 'Wizard Ghost: Nonce verification failed.' );
+				wp_send_json_error( array( 'message' => 'Security check failed - invalid nonce.' ) );
+				wp_die();
+			}
+		} else {
 			error_log( 'Wizard Ghost: No nonce provided in form submission' );
 			wp_send_json_error( array( 'message' => 'Security check failed - no nonce.' ) );
+			wp_die();
 		}
 
-		if ( ! wp_verify_nonce( $nonce, 'wizard_ghost_step_3' ) ) {
-			error_log( 'Wizard Ghost: Nonce verification failed. Nonce: ' . $nonce );
-			wp_send_json_error( array( 'message' => 'Security check failed - invalid nonce.' ) );
-		}
-
-		// Get form data
-		$form_data = isset( $_POST['formData'] ) ? $_POST['formData'] : array();
-
-		error_log( 'Wizard Ghost: Form data received: ' . json_encode( $form_data ) );
-
-		// Sanitize and validate data
+		// Get form data - now flattened from JavaScript
 		$sanitized_data = array(
-			'occupation'  => isset( $form_data['occupation'] ) ? sanitize_text_field( $form_data['occupation'] ) : '',
-			'first_name'  => isset( $form_data['first_name'] ) ? sanitize_text_field( $form_data['first_name'] ) : '',
-			'last_name'   => isset( $form_data['last_name'] ) ? sanitize_text_field( $form_data['last_name'] ) : '',
-			'phone'       => isset( $form_data['phone'] ) ? sanitize_text_field( $form_data['phone'] ) : '',
-			'email'       => isset( $form_data['email'] ) ? sanitize_email( $form_data['email'] ) : '',
-			'dob'         => isset( $form_data['dob'] ) ? sanitize_text_field( $form_data['dob'] ) : '',
+			'occupation'  => isset( $_POST['occupation'] ) ? sanitize_text_field( $_POST['occupation'] ) : '',
+			'first_name'  => isset( $_POST['first_name'] ) ? sanitize_text_field( $_POST['first_name'] ) : '',
+			'last_name'   => isset( $_POST['last_name'] ) ? sanitize_text_field( $_POST['last_name'] ) : '',
+			'phone'       => isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '',
+			'email'       => isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '',
+			'dob'         => isset( $_POST['dob'] ) ? sanitize_text_field( $_POST['dob'] ) : '',
 		);
 
-		error_log( 'Wizard Ghost: Sanitized data: ' . json_encode( $sanitized_data ) );
-
+		error_log( 'Wizard Ghost: Form data received: ' . json_encode( $sanitized_data ) );
+// Send email notification
+		$this->send_submission_email( $sanitized_data );
+		
 		// Store in database
 		$this->store_form_submission( $sanitized_data );
 
-		// Send email notification
-		$this->send_submission_email( $sanitized_data );
+		
 
 		// Get redirect URL
 		$redirect_url = get_option( 'wizard_ghost_redirect_url' );
@@ -206,8 +220,15 @@ class Wizard_Ghost_Public {
 	 */
 	private function send_submission_email( $data ) {
 
+		$log_file = WP_CONTENT_DIR . '/wizard-ghost-debug.log';
+		
 		$email = get_option( 'wizard_ghost_email' );
+		$log_message = '[' . date( 'Y-m-d H:i:s' ) . '] Wizard Ghost: send_submission_email called. Email configured: ' . $email . PHP_EOL;
+		file_put_contents( $log_file, $log_message, FILE_APPEND );
+		
 		if ( empty( $email ) || ! is_email( $email ) ) {
+			$log_message = '[' . date( 'Y-m-d H:i:s' ) . '] Wizard Ghost: No valid email configured. Email: ' . $email . PHP_EOL;
+			file_put_contents( $log_file, $log_message, FILE_APPEND );
 			error_log( 'Wizard Ghost: No valid email configured. Email: ' . $email );
 			return;
 		}
@@ -251,14 +272,28 @@ class Wizard_Ghost_Public {
 		$message .= '</table>';
 		$message .= '</body></html>';
 
-		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+		$headers = array(
+			'Content-Type: text/html; charset=UTF-8',
+			'From: ' . get_bloginfo( 'name' ) . ' <' . get_option( 'admin_email' ) . '>',
+			'Reply-To: ' . get_option( 'admin_email' ),
+		);
+
+		$log_file = WP_CONTENT_DIR . '/wizard-ghost-debug.log';
+		$log_message = '[' . date( 'Y-m-d H:i:s' ) . '] Wizard Ghost: Calling wp_mail to: ' . $email . PHP_EOL;
+		$log_message .= '[' . date( 'Y-m-d H:i:s' ) . '] Wizard Ghost: Subject: ' . $subject . PHP_EOL;
+		$log_message .= '[' . date( 'Y-m-d H:i:s' ) . '] Wizard Ghost: From: ' . get_option( 'admin_email' ) . PHP_EOL;
+		file_put_contents( $log_file, $log_message, FILE_APPEND );
 
 		$mail_sent = wp_mail( $email, $subject, $message, $headers );
 
 		if ( $mail_sent ) {
-			error_log( 'Wizard Ghost: Email sent successfully to ' . $email );
+			$log_message = '[' . date( 'Y-m-d H:i:s' ) . '] Wizard Ghost: wp_mail returned TRUE - Email queued successfully to ' . $email . PHP_EOL;
+			file_put_contents( $log_file, $log_message, FILE_APPEND );
+			error_log( 'Wizard Ghost: Email queued successfully to ' . $email );
 		} else {
-			error_log( 'Wizard Ghost: Failed to send email to ' . $email );
+			$log_message = '[' . date( 'Y-m-d H:i:s' ) . '] Wizard Ghost: wp_mail returned FALSE - Failed to queue email to ' . $email . PHP_EOL;
+			file_put_contents( $log_file, $log_message, FILE_APPEND );
+			error_log( 'Wizard Ghost: Failed to queue email to ' . $email );
 		}
 
 	}
