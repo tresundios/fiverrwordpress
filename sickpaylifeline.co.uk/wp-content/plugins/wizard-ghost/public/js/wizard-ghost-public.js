@@ -1,4 +1,4 @@
-(function( $ ) {
+(function ($) {
 	'use strict';
 
 	/**
@@ -6,7 +6,7 @@
 	 * Handles wizard form navigation and data collection
 	 */
 
-	$(function() {
+	$(function () {
 		// Only initialize if wizard-ghost container exists
 		if ($('.wizard-ghost-container').length === 0) {
 			return;
@@ -16,15 +16,15 @@
 			currentStep: 1,
 			formData: {},
 
-			init: function() {
+			init: function () {
 				this.bindEvents();
 			},
 
-			bindEvents: function() {
+			bindEvents: function () {
 				var self = this;
 
 				// Handle form submissions - only for wizard-ghost forms
-				$('.wizard-ghost-container .wizard-form').on('submit', function(e) {
+				$('.wizard-ghost-container .wizard-form').on('submit', function (e) {
 					e.preventDefault();
 					var step = parseInt($(this).data('step'), 10);
 					console.log('Wizard Ghost - Form submitted for step:', step);
@@ -32,17 +32,17 @@
 				});
 
 				// Handle phone number input formatting and validation
-				$('.wizard-ghost-container #phone').on('input', function() {
+				$('.wizard-ghost-container #phone').on('input', function () {
 					self.formatPhoneNumber($(this));
 				});
 
 				// Handle phone number blur for validation
-				$('.wizard-ghost-container #phone').on('blur', function() {
+				$('.wizard-ghost-container #phone').on('blur', function () {
 					self.validatePhoneNumber($(this));
 				});
 
 				// Handle country code change
-				$('.wizard-ghost-container #phone_country_code').on('change', function() {
+				$('.wizard-ghost-container #phone_country_code').on('change', function () {
 					var flag = $(this).find('option:selected').data('flag');
 					$('.wizard-ghost-container .phone-flag').text(flag);
 				});
@@ -51,7 +51,7 @@
 			/**
 			 * Format phone number as user types
 			 */
-			formatPhoneNumber: function($input) {
+			formatPhoneNumber: function ($input) {
 				var value = $input.val().replace(/\D/g, '');
 				var formatted = '';
 
@@ -72,7 +72,7 @@
 			/**
 			 * Validate UK phone number
 			 */
-			validatePhoneNumber: function($input) {
+			validatePhoneNumber: function ($input) {
 				var phone = $input.val().replace(/\D/g, '');
 				var $errorMsg = $input.closest('.form-group').find('.phone-error');
 
@@ -96,7 +96,7 @@
 				return true;
 			},
 
-			handleStepSubmission: function(step, $form) {
+			handleStepSubmission: function (step, $form) {
 				var self = this;
 				console.log('Handling step submission for step:', step);
 
@@ -104,7 +104,7 @@
 					// Collect occupation data
 					var occupation = $form.find('input[name="occupation"]').val();
 					console.log('Occupation entered:', occupation);
-					
+
 					if (!occupation) {
 						alert('Please enter your occupation');
 						return;
@@ -117,7 +117,7 @@
 					this.showStep(2);
 
 					// Simulate loading for 3 seconds
-					setTimeout(function() {
+					setTimeout(function () {
 						console.log('Moving to step 3 (personal details)...');
 						self.showStep(3);
 					}, 3000);
@@ -130,10 +130,11 @@
 					var phoneCountryCode = $form.find('select[name="phone_country_code"]').val();
 					var email = $form.find('input[name="email"]').val();
 					var dob = $form.find('input[name="dob"]').val();
-					console.log('Personal details collected:', {firstName, lastName, phone, email, dob});
+					var helpWith = $form.find('input[name="help_with"]:checked').val();
+					console.log('Personal details collected:', { firstName, lastName, phone, email, dob, helpWith });
 
 					// Validate required fields
-					if (!firstName || !lastName || !phone || !email || !dob) {
+					if (!firstName || !lastName || !phone || !email || !dob || !helpWith) {
 						alert('Please fill in all required fields');
 						return;
 					}
@@ -150,13 +151,14 @@
 					this.formData.phone = phoneCountryCode + ' ' + phone;
 					this.formData.email = email;
 					this.formData.dob = dob;
+					this.formData.help_with = helpWith;
 
 					// Send data to server
 					this.submitFormData($form);
 				}
 			},
 
-			submitFormData: function($form) {
+			submitFormData: function ($form) {
 				var self = this;
 				var nonce = $form.find('input[name="wizard_ghost_nonce"]').val();
 
@@ -172,7 +174,8 @@
 					last_name: self.formData.last_name,
 					phone: self.formData.phone,
 					email: self.formData.email,
-					dob: self.formData.dob
+					dob: self.formData.dob,
+					help_with: self.formData.help_with
 				};
 
 				console.log('AJAX data being sent:', ajaxData);
@@ -181,24 +184,42 @@
 					url: wizardGhostData.ajaxUrl,
 					type: 'POST',
 					data: ajaxData,
-					success: function(response) {
+					success: function (response) {
 						console.log('AJAX success response:', response);
-						if (response.success) {
-							// Show success message
-							// alert('Thank you! Your information has been submitted successfully.');
-							
-							// Redirect to thank you page if URL is provided
-							if (response.data.redirect) {
-								window.location.href = response.data.redirect;
-							} else {
-								// Reset form if no redirect
-								self.resetWizard();
-							}
+						// Log email sent status
+						if (typeof response.data.email_sent !== 'undefined') {
+							console.log('Email sent status:', response.data.email_sent ? '✅ Email was sent successfully' : '❌ Failed to send email');
+							console.log('Debug - Recipient:', response.data.debug_email_recipient);
+							console.log('Debug - Configured:', response.data.debug_email_configured);
+							console.log('Debug - wp_mail result:', response.data.debug_wp_mail_result);
 						} else {
-							alert('Error: ' + response.data.message);
+							console.log('Email sent status: Not provided in response');
+						}
+
+						if (response.success) {
+							// Show thank you message
+							$('.wizard-step').removeClass('active');
+							$('.wizard-ghost-container').html(`
+								<div class="wizard-thank-you">
+									<div class="thank-you-icon">✓</div>
+									<h2>Thank You!</h2>
+									<p>${response.data.message}</p>
+									${response.data.email_sent === false ? '<p class="email-warning">Note: We had trouble sending the confirmation email. Your information has been saved.</p>' : ''}
+									<button class="btn btn-primary start-over-btn">Start Over</button>
+								</div>
+							`).addClass('thank-you-active');
+
+							// Add click handler for start over button
+							setTimeout(function () {
+								$('.start-over-btn').on('click', function () {
+									location.reload();
+								});
+							}, 100);
+						} else {
+							alert('Error: ' + (response.data.message || 'An unknown error occurred'));
 						}
 					},
-					error: function(xhr, status, error) {
+					error: function (xhr, status, error) {
 						console.log('AJAX error:', status, error);
 						console.log('AJAX response:', xhr.responseText);
 						alert('An error occurred while submitting the form.');
@@ -206,7 +227,7 @@
 				});
 			},
 
-			showStep: function(step) {
+			showStep: function (step) {
 				console.log('Showing step:', step);
 				// Hide all steps
 				$('.wizard-step').removeClass('active');
@@ -218,6 +239,11 @@
 
 				this.currentStep = step;
 
+				// Trigger confetti for step 2 (Congratulations)
+				if (step === 2) {
+					this.triggerConfetti();
+				}
+
 				// Scroll to top
 				var containerOffset = $('.wizard-ghost-container').offset();
 				if (containerOffset) {
@@ -227,7 +253,35 @@
 				}
 			},
 
-			resetWizard: function() {
+			triggerConfetti: function () {
+				console.log('Triggering confetti...');
+				var colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+
+				for (var i = 0; i < 100; i++) {
+					var $confetti = $('<div class="confetti"></div>');
+					var color = colors[Math.floor(Math.random() * colors.length)];
+					var left = Math.random() * 100 + 'vw';
+					var animationDuration = (Math.random() * 3 + 2) + 's';
+					var animationDelay = (Math.random() * 2) + 's';
+
+					$confetti.css({
+						'background-color': color,
+						'left': left,
+						'animation-duration': animationDuration,
+						'animation-delay': animationDelay
+					});
+
+					$('body').append($confetti);
+
+					// Remove confetti after animation
+					setTimeout(function ($c) {
+						$c.remove();
+					}, 5000, $confetti);
+				}
+				console.log('Confetti triggered!');
+			},
+
+			resetWizard: function () {
 				this.currentStep = 1;
 				this.formData = {};
 				$('.wizard-ghost-container .wizard-form').trigger('reset');
@@ -241,4 +295,4 @@
 		console.log('Wizard Ghost initialized successfully');
 	});
 
-})( jQuery );
+})(jQuery);

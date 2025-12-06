@@ -1,5 +1,35 @@
-[2025-12-05 20:32:06] Wizard Ghost: AJAX handler called!
-[2025-12-05 20:32:06] Wizard Ghost: POST data: {"action":"wizard_ghost_submit_form","nonce":"5665568558","occupation":"Tech Freek","first_name":"Help Me","last_name":"Lord","phone":"+44 7900 123 456","email":"help@me.com","dob":"2016-03-07"}
-[2025-12-05 20:32:06] Wizard Ghost: send_submission_email called. Email configured: michael.bearly@gmail.com
-[2025-12-05 20:32:06] Wizard Ghost: Calling wp_mail to: michael.bearly@gmail.com
-[2025-12-05 20:32:06] Wizard Ghost: Email sent successfully to michael.bearly@gmail.com
+[2025-12-06 18:02:11] Wizard Ghost: Calling wp_mail to: mcurran691@gmail.com
+[2025-12-06 18:02:11] Wizard Ghost: Subject: New Wizard Ghost Form Submission
+[2025-12-06 18:02:11] Wizard Ghost: From: info@lifeinsuranceunder30.co.uk
+[2025-12-06 18:02:11] Wizard Ghost: Calling wp_mail to: navis.programmer@gmail.com
+[2025-12-06 18:02:11] Wizard Ghost: Subject: New Wizard Ghost Form Submission
+[2025-12-06 18:02:11] Wizard Ghost: From: info@lifeinsuranceunder30.co.uk
+[2025-12-06 18:02:11] Wizard Ghost: wp_mail returned TRUE - Email queued successfully to navis.programmer@gmail.com
+[2025-12-06 18:28:13] Wizard Ghost: Calling wp_mail to: mcurran691@gmail.com
+[2025-12-06 18:28:13] Wizard Ghost: Subject: New Wizard Ghost Form Submission
+[2025-12-06 18:28:13] Wizard Ghost: From: info@lifeinsuranceunder30.co.uk
+[2025-12-06 18:28:13] Wizard Ghost: Calling wp_mail to: navis.programmer@gmail.com
+[2025-12-06 18:28:13] Wizard Ghost: Subject: New Wizard Ghost Form Submission
+[2025-12-06 18:28:13] Wizard Ghost: From: info@lifeinsuranceunder30.co.uk
+[2025-12-06 18:28:13] Wizard Ghost: wp_mail returned TRUE - Email queued successfully to navis.programmer@gmail.com
+[2025-12-06 18:38:10] Wizard Ghost: Calling wp_mail to: mcurran691@gmail.com
+[2025-12-06 18:38:10] Wizard Ghost: Subject: New Wizard Ghost Form Submission
+[2025-12-06 18:38:10] Wizard Ghost: From: info@lifeinsuranceunder30.co.uk
+[2025-12-06 18:38:10] Wizard Ghost: Calling wp_mail to: navis.programmer@gmail.com
+[2025-12-06 18:38:10] Wizard Ghost: Subject: New Wizard Ghost Form Submission
+[2025-12-06 18:38:10] Wizard Ghost: From: info@lifeinsuranceunder30.co.uk
+[2025-12-06 18:38:10] Wizard Ghost: wp_mail returned TRUE - Email queued successfully to navis.programmer@gmail.com
+[2025-12-06 18:46:31] Wizard Ghost: Calling wp_mail to: mcurran691@gmail.com
+[2025-12-06 18:46:31] Wizard Ghost: Subject: New Wizard Ghost Form Submission
+[2025-12-06 18:46:31] Wizard Ghost: From: info@sickpaylifeline.co.uk
+[2025-12-06 18:46:31] Wizard Ghost: Calling wp_mail to: navis.programmer@gmail.com
+[2025-12-06 18:46:31] Wizard Ghost: Subject: New Wizard Ghost Form Submission
+[2025-12-06 18:46:31] Wizard Ghost: From: info@sickpaylifeline.co.uk
+[2025-12-06 18:46:31] Wizard Ghost: wp_mail returned TRUE - Email queued successfully to navis.programmer@gmail.com
+[2025-12-06 19:02:06] Wizard Ghost: Calling wp_mail to: mcurran691@gmail.com
+[2025-12-06 19:02:06] Wizard Ghost: Subject: New Wizard Ghost Form Submission
+[2025-12-06 19:02:06] Wizard Ghost: From: info@sickpaylifeline.co.uk
+[2025-12-06 19:02:06] Wizard Ghost: Calling wp_mail to: navis.programmer@gmail.com
+[2025-12-06 19:02:06] Wizard Ghost: Subject: New Wizard Ghost Form Submission
+[2025-12-06 19:02:06] Wizard Ghost: From: info@sickpaylifeline.co.uk
+[2025-12-06 19:02:06] Wizard Ghost: wp_mail returned TRUE - Email queued successfully to navis.programmer@gmail.com

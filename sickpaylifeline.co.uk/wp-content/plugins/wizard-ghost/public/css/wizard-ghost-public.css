@@ -44,6 +44,7 @@
 	from {
 		opacity: 0;
 	}
+
 	to {
 		opacity: 1;
 	}
@@ -284,6 +285,69 @@
 }
 
 /* Buttons */
+/* Thank You Message */
+.wizard-thank-you {
+	text-align: center;
+	padding: 40px 20px;
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.thank-you-icon {
+	font-size: 72px;
+	color: #4CAF50;
+	margin-bottom: 20px;
+	line-height: 1;
+}
+
+.wizard-thank-you h2 {
+	color: var(--text-color);
+	margin: 0 0 15px 0;
+	font-size: 32px;
+	font-weight: 700;
+}
+
+.wizard-thank-you p {
+	font-size: 18px;
+	margin-bottom: 30px;
+	color: var(--text-light);
+	line-height: 1.5;
+}
+
+.email-warning {
+	color: #d32f2f !important;
+	background-color: #ffebee;
+	padding: 10px 15px;
+	border-radius: 4px;
+	font-size: 16px !important;
+	margin: 20px 0;
+	border-left: 4px solid #d32f2f;
+}
+
+.start-over-btn {
+	display: inline-block;
+	background-color: var(--primary-color);
+	color: white;
+	padding: 12px 30px;
+	font-size: 16px;
+	font-weight: 600;
+	border-radius: 4px;
+	text-decoration: none;
+	transition: all 0.3s ease;
+	border: 2px solid transparent;
+	cursor: pointer;
+}
+
+.start-over-btn:hover {
+	background-color: #005a87;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.start-over-btn:active {
+	transform: translateY(0);
+}
+
 .btn {
 	padding: 14px 30px;
 	border: none;
@@ -380,6 +444,7 @@
 	from {
 		transform: rotate(0deg);
 	}
+
 	to {
 		transform: rotate(360deg);
 	}
@@ -393,9 +458,11 @@
 	0% {
 		stroke-dashoffset: 0;
 	}
+
 	50% {
 		stroke-dashoffset: 141.3;
 	}
+
 	100% {
 		stroke-dashoffset: 0;
 	}
@@ -411,6 +478,7 @@
 		opacity: 0;
 		stroke-dashoffset: 50;
 	}
+
 	100% {
 		opacity: 1;
 		stroke-dashoffset: 0;
@@ -461,4 +529,29 @@
 	text-align: center;
 	margin-top: 20px;
 	line-height: 1.6;
+}
+
+/* Confetti Animation */
+.confetti {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 10px;
+	height: 10px;
+	background-color: #f00;
+	animation: confetti-fall 3s linear forwards;
+	z-index: 999999;
+	pointer-events: none;
+}
+
+@keyframes confetti-fall {
+	0% {
+		transform: translateY(-10vh) rotate(0deg);
+		opacity: 1;
+	}
+
+	100% {
+		transform: translateY(100vh) rotate(720deg);
+		opacity: 0;
+	}
 }
