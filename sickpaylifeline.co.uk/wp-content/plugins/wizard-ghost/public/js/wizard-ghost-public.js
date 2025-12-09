@@ -239,8 +239,8 @@
 
 				this.currentStep = step;
 
-				// Trigger confetti for step 2 (Congratulations)
-				if (step === 2) {
+				// Trigger confetti for step 3 (Congratulations)
+				if (step === 3) {
 					this.triggerConfetti();
 				}
 
