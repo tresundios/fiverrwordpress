@@ -20,7 +20,8 @@
  * @subpackage Wizard_Ghost/admin
  * @author     Your Name <email@example.com>
  */
-class Wizard_Ghost_Admin {
+class Wizard_Ghost_Admin
+{
 
 	/**
 	 * The ID of this plugin.
@@ -47,7 +48,8 @@ class Wizard_Ghost_Admin {
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
@@ -59,7 +61,8 @@ class Wizard_Ghost_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -73,7 +76,7 @@ class Wizard_Ghost_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wizard-ghost-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wizard-ghost-admin.css', array(), $this->version, 'all');
 
 	}
 
@@ -82,7 +85,8 @@ class Wizard_Ghost_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -96,7 +100,7 @@ class Wizard_Ghost_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wizard-ghost-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/wizard-ghost-admin.js', array('jquery'), $this->version, false);
 
 	}
 
@@ -105,14 +109,15 @@ class Wizard_Ghost_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function add_admin_menu() {
+	public function add_admin_menu()
+	{
 
 		add_menu_page(
-			esc_html__( 'Wizard Ghost', 'wizard-ghost' ),
-			esc_html__( 'Wizard Ghost', 'wizard-ghost' ),
+			esc_html__('Wizard Ghost', 'wizard-ghost'),
+			esc_html__('Wizard Ghost', 'wizard-ghost'),
 			'manage_options',
 			'wizard-ghost',
-			array( $this, 'display_admin_page' ),
+			array($this, 'display_admin_page'),
 			'dashicons-wizard',
 			25
 		);
@@ -124,13 +129,14 @@ class Wizard_Ghost_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function display_admin_page() {
+	public function display_admin_page()
+	{
 
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'wizard-ghost' ) );
+		if (!current_user_can('manage_options')) {
+			wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'wizard-ghost'));
 		}
 
-		include_once plugin_dir_path( __FILE__ ) . 'partials/wizard-ghost-admin-display.php';
+		include_once plugin_dir_path(__FILE__) . 'partials/wizard-ghost-admin-display.php';
 
 	}
 
@@ -139,35 +145,50 @@ class Wizard_Ghost_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function save_admin_settings() {
+	public function save_admin_settings()
+	{
 
-		if ( ! isset( $_POST['wizard_ghost_admin_nonce'] ) || ! wp_verify_nonce( $_POST['wizard_ghost_admin_nonce'], 'wizard_ghost_admin_action' ) ) {
+		if (!isset($_POST['wizard_ghost_admin_nonce']) || !wp_verify_nonce($_POST['wizard_ghost_admin_nonce'], 'wizard_ghost_admin_action')) {
 			return;
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if (!current_user_can('manage_options')) {
 			return;
 		}
 
-		$email = isset( $_POST['wizard_ghost_email'] ) ? sanitize_email( $_POST['wizard_ghost_email'] ) : '';
-		$redirect_url = isset( $_POST['wizard_ghost_redirect_url'] ) ? esc_url_raw( $_POST['wizard_ghost_redirect_url'] ) : '';
+		$email = isset($_POST['wizard_ghost_email']) ? sanitize_email($_POST['wizard_ghost_email']) : '';
+		$cc_email = isset($_POST['wizard_ghost_cc_email']) ? sanitize_email($_POST['wizard_ghost_cc_email']) : '';
+		$bcc_email = isset($_POST['wizard_ghost_bcc_email']) ? sanitize_email($_POST['wizard_ghost_bcc_email']) : '';
+		$redirect_url = isset($_POST['wizard_ghost_redirect_url']) ? esc_url_raw($_POST['wizard_ghost_redirect_url']) : '';
 
-		if ( ! empty( $email ) && is_email( $email ) ) {
-			update_option( 'wizard_ghost_email', $email );
+		if (!empty($email) && is_email($email)) {
+			update_option('wizard_ghost_email', $email);
 		}
 
-		if ( ! empty( $redirect_url ) ) {
-			update_option( 'wizard_ghost_redirect_url', $redirect_url );
+		if (!empty($cc_email) && is_email($cc_email)) {
+			update_option('wizard_ghost_cc_email', $cc_email);
+		} else {
+			delete_option('wizard_ghost_cc_email');
+		}
+
+		if (!empty($bcc_email) && is_email($bcc_email)) {
+			update_option('wizard_ghost_bcc_email', $bcc_email);
+		} else {
+			delete_option('wizard_ghost_bcc_email');
+		}
+
+		if (!empty($redirect_url)) {
+			update_option('wizard_ghost_redirect_url', $redirect_url);
 		}
 
 		// Send test email if requested
-		if ( isset( $_POST['wizard_ghost_test_email'] ) && ! empty( $email ) ) {
-			$this->send_test_email( $email );
+		if (isset($_POST['wizard_ghost_test_email']) && !empty($email)) {
+			$this->send_test_email($email);
 		}
 
-		wp_safe_remote_post( admin_url( 'admin.php?page=wizard-ghost' ), array(
+		wp_safe_remote_post(admin_url('admin.php?page=wizard-ghost'), array(
 			'blocking' => false,
-		) );
+		));
 
 	}
 
@@ -177,28 +198,29 @@ class Wizard_Ghost_Admin {
 	 * @since    1.0.0
 	 * @param    string $email Email address to send test to.
 	 */
-	private function send_test_email( $email ) {
+	private function send_test_email($email)
+	{
 
 		$subject = 'Wizard Ghost - Test Email';
 		$message = '<html><body>';
 		$message .= '<h2>Test Email from Wizard Ghost</h2>';
 		$message .= '<p>This is a test email to verify that email notifications are working correctly.</p>';
-		$message .= '<p><strong>Site:</strong> ' . get_bloginfo( 'name' ) . '</p>';
-		$message .= '<p><strong>Time:</strong> ' . current_time( 'mysql' ) . '</p>';
+		$message .= '<p><strong>Site:</strong> ' . get_bloginfo('name') . '</p>';
+		$message .= '<p><strong>Time:</strong> ' . current_time('mysql') . '</p>';
 		$message .= '</body></html>';
 
-		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+		$headers = array('Content-Type: text/html; charset=UTF-8');
 
-		$mail_sent = wp_mail( $email, $subject, $message, $headers );
+		$mail_sent = wp_mail($email, $subject, $message, $headers);
 
-		if ( $mail_sent ) {
-			add_action( 'admin_notices', function() {
+		if ($mail_sent) {
+			add_action('admin_notices', function () {
 				echo '<div class="notice notice-success is-dismissible"><p>Test email sent successfully!</p></div>';
-			} );
+			});
 		} else {
-			add_action( 'admin_notices', function() {
+			add_action('admin_notices', function () {
 				echo '<div class="notice notice-error is-dismissible"><p>Failed to send test email. Check your server mail configuration.</p></div>';
-			} );
+			});
 		}
 
 	}

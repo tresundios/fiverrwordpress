@@ -46,6 +46,28 @@
 					var flag = $(this).find('option:selected').data('flag');
 					$('.wizard-ghost-container .phone-flag').text(flag);
 				});
+
+				// Handle Date of Birth dropdown changes
+				$('.wizard-ghost-container .date-select').on('change', function () {
+					self.updateDobInput();
+				});
+			},
+
+			/**
+			 * Update hidden DOB input from dropdowns
+			 */
+			updateDobInput: function () {
+				var day = $('#dob_day').val();
+				var month = $('#dob_month').val();
+				var year = $('#dob_year').val();
+
+				if (day && month && year) {
+					// Format as YYYY-MM-DD
+					var dob = year + '-' + month + '-' + day;
+					$('#dob').val(dob);
+				} else {
+					$('#dob').val('');
+				}
 			},
 
 			/**
@@ -76,20 +98,29 @@
 				var phone = $input.val().replace(/\D/g, '');
 				var $errorMsg = $input.closest('.form-group').find('.phone-error');
 
-				// UK phone numbers should be 10-11 digits
-				if (phone.length < 10 || phone.length > 11) {
+				// Get selected country code
+				var countryCode = $('#phone_country_code').val();
+
+				// Standard length check for all numbers (ITU recommends max 15)
+				if (phone.length < 6 || phone.length > 15) {
 					$errorMsg.show();
 					$input.addClass('error');
 					return false;
 				}
 
-				// Check if it's a valid UK number (starts with 0 or 7 for mobile)
-				var ukPhoneRegex = /^(0|7)\d{9,10}$/;
-				if (!ukPhoneRegex.test(phone)) {
-					$errorMsg.show();
-					$input.addClass('error');
-					return false;
+				// Strict validation only for UK
+				if (countryCode === '+44') {
+					var ukPhoneRegex = /^(0|7)\d{9,10}$/;
+					if (!ukPhoneRegex.test(phone)) {
+						$errorMsg.show();
+						$input.addClass('error');
+						return false;
+					}
 				}
+
+				$errorMsg.hide();
+				$input.removeClass('error');
+				return true;
 
 				$errorMsg.hide();
 				$input.removeClass('error');
@@ -238,6 +269,7 @@
 				$stepElement.addClass('active');
 
 				this.currentStep = step;
+				this.updateProgressBar(step);
 
 				// Trigger confetti for step 3 (Congratulations)
 				if (step === 3) {
@@ -251,6 +283,18 @@
 						scrollTop: containerOffset.top - 100
 					}, 300);
 				}
+			},
+
+			updateProgressBar: function (step) {
+				var progress = 0;
+				if (step === 1) {
+					progress = 33;
+				} else if (step === 2) {
+					progress = 66;
+				} else if (step === 3) {
+					progress = 100;
+				}
+				$('.wizard-progress-fill').css('width', progress + '%');
 			},
 
 			triggerConfetti: function () {

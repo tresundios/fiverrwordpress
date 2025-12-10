@@ -11,28 +11,35 @@
 	--error-color: #dc3545;
 	--light-bg: #f9f9f9;
 	--border-color: #ddd;
-	--text-color: #333;
-	--text-light: #666;
+	--text-color: #030042;
+	--text-light: #030042;
+}
+
+.wizard-ghost-container * {
+	font-family: "Poppins", Sans-serif;
 }
 
 .wizard-ghost-container {
-	max-width: 800px;
+	max-width: 550px;
 	margin: 40px auto;
-	padding: 0 20px;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	/* padding: 0 20px; */
+	font-family: "Poppins", Sans-serif;
 }
 
 .wizard-ghost-form-wrapper {
 	background: #fff;
 	border-radius: 8px;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	/*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);*/
 	overflow: hidden;
 }
 
 /* Wizard Steps */
 .wizard-step {
 	display: none;
-	padding: 40px;
+	padding-top: 40px;
+	padding-right: 40px;
+	padding-left: 40px;
+	padding-bottom: 0px;
 	animation: fadeIn 0.3s ease-in;
 }
 
@@ -50,37 +57,66 @@
 	}
 }
 
-/* Wizard Header */
+/* Wizard Headers */
 .wizard-header {
 	text-align: center;
-	margin-bottom: 40px;
-	border-bottom: 2px solid var(--primary-color);
-	padding-bottom: 20px;
+	margin-bottom: 20px;
+	/* border-bottom: 2px solid var(--primary-color); */
+	padding-bottom: 10px;
+}
+
+/* Progress Bar */
+.wizard-progress-bar {
+	width: 100%;
+	height: 8px;
+	background-color: #f0f0f0;
+	border-radius: 4px 4px 0 0;
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+
+.wizard-progress-fill {
+	height: 100%;
+	background-color: var(--primary-color);
+	/* Blue */
+	width: 33%;
+	/* Initial width */
+	transition: width 0.5s ease;
 }
 
 .wizard-header h1 {
-	font-size: 32px;
-	font-weight: 700;
-	color: var(--text-color);
-	margin: 0 0 10px 0;
-	line-height: 1.3;
+	font-size: 2rem !important;
+	color: #030042;
+	font-weight: 550 !important;
+	line-height: 1.35 !important;
+	letter-spacing: normal;
+	text-transform: unset;
+	margin: 0em;
+}
+
+.wizard-question h2 {
+	font-size: 1.7rem;
+	margin-bottom: 15px;
+	color: #030042;
+	line-height: 1.2;
+	text-align: center;
 }
 
 .wizard-header p {
-	font-size: 16px;
+	font-size: 1.7rem;
 	color: var(--text-light);
 	margin: 5px 0;
 }
 
 .wizard-header .subtitle {
-	font-size: 14px;
+	font-size: 1rem;
 	color: var(--text-light);
 	font-style: italic;
 }
 
 /* Wizard Content */
 .wizard-content {
-	margin-top: 30px;
+	margin-top: 20px;
 }
 
 /* Form Groups */
@@ -93,7 +129,7 @@
 	font-weight: 600;
 	color: var(--text-color);
 	margin-bottom: 8px;
-	font-size: 14px;
+	font-size: 16px;
 }
 
 .help-text {
@@ -106,12 +142,17 @@
 .form-control {
 	width: 100%;
 	padding: 12px 15px;
-	border: 2px solid var(--border-color);
+	border: 1px solid #999;
+	/* Defined border */
 	border-radius: 4px;
-	font-size: 14px;
+	font-size: 18px;
+	/* Slightly larger for readability */
 	font-family: inherit;
 	transition: border-color 0.3s ease;
 	box-sizing: border-box;
+	height: 50px;
+	background-color: #f5f5f5 !important;
+	/* Enforce height */
 }
 
 .form-control:focus {
@@ -126,7 +167,8 @@
 }
 
 .form-control::placeholder {
-	color: #bbb;
+	color: #777;
+	/* Darker placeholder */
 }
 
 /* Form Row */
@@ -138,8 +180,13 @@
 
 @media (max-width: 600px) {
 	.form-row {
-		grid-template-columns: 1fr;
+		gap: 10px;
+		/* Smaller gap for mobile */
 	}
+}
+
+@media (max-width: 600px) {
+	/* form-row override removed to keep 2 columns */
 }
 
 /* Phone Input */
@@ -147,10 +194,11 @@
 	display: flex;
 	gap: 0;
 	align-items: stretch;
-	border: 2px solid var(--border-color);
+	border: 1px solid #999;
 	border-radius: 4px;
 	overflow: hidden;
 	transition: border-color 0.3s ease;
+	height: 50px;
 }
 
 .phone-input-wrapper:focus-within {
@@ -164,7 +212,7 @@
 	gap: 8px;
 	padding: 0 12px;
 	background: #f9f9f9;
-	border-right: 1px solid var(--border-color);
+	border-right: 1px solid #999;
 	flex-shrink: 0;
 }
 
@@ -194,6 +242,8 @@
 	border: none;
 	padding: 12px 12px;
 	box-shadow: none;
+	height: 100%;
+	background-color: #f5f5f5 !important;
 }
 
 .phone-input-wrapper .form-control:focus {
@@ -229,10 +279,12 @@
 .email-input-wrapper {
 	display: flex;
 	align-items: center;
-	border: 2px solid var(--border-color);
+	border: 1px solid #999;
 	border-radius: 4px;
 	padding: 0 12px;
 	transition: border-color 0.3s ease;
+	height: 50px;
+	background-color: #f5f5f5 !important;
 }
 
 .email-input-wrapper:focus-within {
@@ -249,6 +301,7 @@
 	border: none;
 	padding: 12px 0;
 	flex: 1;
+	height: 100%;
 }
 
 .email-input-wrapper .form-control:focus {
@@ -256,32 +309,56 @@
 }
 
 /* Date Input */
+.date-dropdowns-wrapper {
+	width: 100%;
+}
+
+.date-select-group {
+	display: flex;
+	gap: 10px;
+	width: 100%;
+}
+
+.date-select {
+	flex: 1;
+	min-width: 0;
+	/* Prevent overflow on small screens */
+	padding: 12px 10px;
+	/* Slightly tighter padding for small screens */
+	border: 1px solid #999;
+	border-radius: 4px;
+	font-size: 16px;
+	font-family: inherit;
+	height: 50px;
+	background-color: #fff;
+	cursor: pointer;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	/* Add custom arrow for consistent look if desired, or leave browser default */
+	background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+	background-repeat: no-repeat;
+	background-position: right .7em top 50%;
+	background-size: .65em auto;
+	padding-right: 1.5em;
+	/* Space for arrow */
+}
+
+.date-select:focus {
+	outline: none;
+	border-color: var(--primary-color);
+	box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.1);
+}
+
+/* Old wrapper styles kept just in case of revert, but unused by new HTML */
 .date-input-wrapper {
 	display: flex;
 	align-items: center;
-	border: 2px solid var(--border-color);
+	border: 1px solid #999;
 	border-radius: 4px;
 	padding: 0 12px;
 	transition: border-color 0.3s ease;
-}
-
-.date-input-wrapper:focus-within {
-	border-color: var(--primary-color);
-}
-
-.date-icon {
-	margin-right: 10px;
-	font-size: 16px;
-}
-
-.date-input-wrapper .form-control {
-	border: none;
-	padding: 12px 0;
-	flex: 1;
-}
-
-.date-input-wrapper .form-control:focus {
-	box-shadow: none;
+	height: 50px;
 }
 
 /* Buttons */
@@ -349,18 +426,24 @@
 }
 
 .btn {
-	padding: 14px 30px;
+	padding: 0 15px;
+	/* Adjust padding to match form-control somewhat, but rely on height and centering */
 	border: none;
 	border-radius: 4px;
 	font-size: 16px;
 	font-weight: 600;
 	cursor: pointer;
 	transition: all 0.3s ease;
-	display: inline-flex;
+	display: flex;
+	/* Changed from inline-flex to flex for robustness */
 	align-items: center;
 	gap: 10px;
 	width: 100%;
 	justify-content: center;
+	height: 50px;
+	/* Match form-control height */
+	box-sizing: border-box;
+	/* Ensure padding doesn't add to width */
 }
 
 .btn-primary {
@@ -381,6 +464,59 @@
 .arrow {
 	font-size: 18px;
 }
+
+/* Button Content Styling */
+button.generic-button .content {
+	display: flex;
+	flex-grow: 1;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 100%;
+	transition-property: all;
+	width: 100% !important;
+	/* Ensure it spans full width */
+}
+
+button.generic-button {
+	width: 100% !important;
+	background-color: var(--secondary-color);
+	color: #fff;
+	font-weight: 700;
+	border-radius: 4px;
+	border-color: #ddd;
+}
+
+button.generic-button:hover {
+	width: 100% !important;
+	background-color: var(--secondary-color);
+	color: #fff;
+	font-weight: 900;
+	border-radius: 4px;
+	border-color: #ddd;
+}
+
+button.generic-button:focus {
+	width: 100% !important;
+	background-color: var(--secondary-color);
+	color: #fff;
+	font-weight: 900;
+	border-radius: 4px;
+	border-color: #ddd;
+}
+
+button.generic-button:active {
+	width: 100% !important;
+	background-color: var(--secondary-color);
+	color: #fff;
+	font-weight: 900;
+	border-radius: 4px;
+	border-color: #ddd;
+}
+
+/* 
+[type=button], [type=submit], button {
+	width: 100% !important;
+} */
 
 /* Benefits Section */
 .wizard-benefits {
@@ -554,4 +690,8 @@
 		transform: translateY(100vh) rotate(720deg);
 		opacity: 0;
 	}
+}
+
+.radio-option {
+	font-weight: normal !important;
 }

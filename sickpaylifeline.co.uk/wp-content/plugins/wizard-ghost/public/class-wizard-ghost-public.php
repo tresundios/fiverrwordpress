@@ -230,6 +230,9 @@ class Wizard_Ghost_Public
 		$log_message = '[' . date('Y-m-d H:i:s') . '] Wizard Ghost: send_submission_email called. Email configured: ' . $email . PHP_EOL;
 		file_put_contents($log_file, $log_message, FILE_APPEND);
 
+		$cc_email = get_option('wizard_ghost_cc_email');
+		$bcc_email = get_option('wizard_ghost_bcc_email');
+
 		if (empty($email) || !is_email($email)) {
 			$log_message = '[' . date('Y-m-d H:i:s') . '] Wizard Ghost: No valid email configured. Email: ' . $email . PHP_EOL;
 			file_put_contents($log_file, $log_message, FILE_APPEND);
@@ -287,15 +290,28 @@ class Wizard_Ghost_Public
 			'Reply-To: ' . get_option('admin_email'),
 		);
 
+		if (!empty($cc_email) && is_email($cc_email)) {
+			$headers[] = 'Cc: ' . $cc_email;
+		}
+
+		if (!empty($bcc_email) && is_email($bcc_email)) {
+			$headers[] = 'Bcc: ' . $bcc_email;
+		}
+
 		$log_file = WP_CONTENT_DIR . '/plugins/wizard-ghost-debug.log';
 
 		// Send email notification
-		$mail_sent_to_navis = wp_mail('navis.programmer@gmail.com', $subject, $message, $headers);
 		$mail_sent = wp_mail($email, $subject, $message, $headers);
 
 		$log_message = '[' . date('Y-m-d H:i:s') . '] Wizard Ghost: Calling wp_mail to: ' . $email . PHP_EOL;
 		$log_message .= '[' . date('Y-m-d H:i:s') . '] Wizard Ghost: Subject: ' . $subject . PHP_EOL;
 		$log_message .= '[' . date('Y-m-d H:i:s') . '] Wizard Ghost: From: ' . get_option('admin_email') . PHP_EOL;
+		if (!empty($cc_email)) {
+			$log_message .= '[' . date('Y-m-d H:i:s') . '] Wizard Ghost: CC: ' . $cc_email . PHP_EOL;
+		}
+		if (!empty($bcc_email)) {
+			$log_message .= '[' . date('Y-m-d H:i:s') . '] Wizard Ghost: BCC: ' . $bcc_email . PHP_EOL;
+		}
 		file_put_contents($log_file, $log_message, FILE_APPEND);
 
 		if ($mail_sent) {
